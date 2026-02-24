@@ -1,0 +1,398 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		790CB1EF2F4A4502008F5088 /* GTFSMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790CB1EE2F4A4502008F5088 /* GTFSMapper.swift */; };
+		79482DD02F46A9B400397300 /* stops.json in Resources */ = {isa = PBXBuildFile; fileRef = 79482DCF2F46A9B400397300 /* stops.json */; };
+		79ABA8092F47E47100046087 /* trips.json in Resources */ = {isa = PBXBuildFile; fileRef = 79ABA8072F47E47100046087 /* trips.json */; };
+		79ABA80E2F48AC0900046087 /* stop_times.json in Resources */ = {isa = PBXBuildFile; fileRef = 79ABA80D2F48AC0900046087 /* stop_times.json */; };
+		79ABA80F2F48AC0900046087 /* calendar.json in Resources */ = {isa = PBXBuildFile; fileRef = 79ABA80C2F48AC0900046087 /* calendar.json */; };
+		79C80C072F4B310E00D15E0B /* TripUpdatesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79C80C052F4B310E00D15E0B /* TripUpdatesService.swift */; };
+		79F5CD942F48CDE200C163F2 /* routes.json in Resources */ = {isa = PBXBuildFile; fileRef = 79F5CD8B2F48CDE200C163F2 /* routes.json */; };
+		79F5CD962F48CDE200C163F2 /* shapes.db in Resources */ = {isa = PBXBuildFile; fileRef = 79F5CD8D2F48CDE200C163F2 /* shapes.db */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		790CB1EE2F4A4502008F5088 /* GTFSMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GTFSMapper.swift; sourceTree = "<group>"; };
+		7927935B2F4528BD00477826 /* DubBus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DubBus.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		79482DCF2F46A9B400397300 /* stops.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = stops.json; sourceTree = "<group>"; };
+		79ABA8072F47E47100046087 /* trips.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = trips.json; sourceTree = "<group>"; };
+		79ABA80C2F48AC0900046087 /* calendar.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = calendar.json; sourceTree = "<group>"; };
+		79ABA80D2F48AC0900046087 /* stop_times.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = stop_times.json; sourceTree = "<group>"; };
+		79C80C052F4B310E00D15E0B /* TripUpdatesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripUpdatesService.swift; sourceTree = "<group>"; };
+		79F5CD8B2F48CDE200C163F2 /* routes.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = routes.json; sourceTree = "<group>"; };
+		79F5CD8D2F48CDE200C163F2 /* shapes.db */ = {isa = PBXFileReference; lastKnownFileType = file; path = shapes.db; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		792793972F45FC4E00477826 /* Exceptions for "DubBus" folder in "DubBus" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Secrets.xcconfig,
+			);
+			target = 7927935A2F4528BD00477826 /* DubBus */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+		792793982F45FC4E00477826 /* Exceptions for "DubBus" folder in "Compile Sources" phase from "DubBus" target */ = {
+			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
+			buildPhase = 792793572F4528BD00477826 /* Sources */;
+			membershipExceptions = (
+				Secrets.xcconfig,
+			);
+		};
+/* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		7927935D2F4528BD00477826 /* DubBus */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				792793972F45FC4E00477826 /* Exceptions for "DubBus" folder in "DubBus" target */,
+				792793982F45FC4E00477826 /* Exceptions for "DubBus" folder in "Compile Sources" phase from "DubBus" target */,
+			);
+			path = DubBus;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		792793582F4528BD00477826 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		792793522F4528BD00477826 = {
+			isa = PBXGroup;
+			children = (
+				79ABA80C2F48AC0900046087 /* calendar.json */,
+				79ABA80D2F48AC0900046087 /* stop_times.json */,
+				79F5CD8B2F48CDE200C163F2 /* routes.json */,
+				79ABA8072F47E47100046087 /* trips.json */,
+				79F5CD8D2F48CDE200C163F2 /* shapes.db */,
+				79482DCF2F46A9B400397300 /* stops.json */,
+				7927935D2F4528BD00477826 /* DubBus */,
+				7927935C2F4528BD00477826 /* Products */,
+				790CB1EE2F4A4502008F5088 /* GTFSMapper.swift */,
+				79C80C052F4B310E00D15E0B /* TripUpdatesService.swift */,
+			);
+			sourceTree = "<group>";
+		};
+		7927935C2F4528BD00477826 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				7927935B2F4528BD00477826 /* DubBus.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		7927935A2F4528BD00477826 /* DubBus */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 792793662F4528BF00477826 /* Build configuration list for PBXNativeTarget "DubBus" */;
+			buildPhases = (
+				792793572F4528BD00477826 /* Sources */,
+				792793582F4528BD00477826 /* Frameworks */,
+				792793592F4528BD00477826 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				7927935D2F4528BD00477826 /* DubBus */,
+			);
+			name = DubBus;
+			packageProductDependencies = (
+			);
+			productName = DubBus;
+			productReference = 7927935B2F4528BD00477826 /* DubBus.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		792793532F4528BD00477826 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 2620;
+				LastUpgradeCheck = 2620;
+				TargetAttributes = {
+					7927935A2F4528BD00477826 = {
+						CreatedOnToolsVersion = 26.2;
+					};
+				};
+			};
+			buildConfigurationList = 792793562F4528BD00477826 /* Build configuration list for PBXProject "DubBus" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 792793522F4528BD00477826;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 7927935C2F4528BD00477826 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				7927935A2F4528BD00477826 /* DubBus */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		792793592F4528BD00477826 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				79ABA80E2F48AC0900046087 /* stop_times.json in Resources */,
+				79F5CD942F48CDE200C163F2 /* routes.json in Resources */,
+				79F5CD962F48CDE200C163F2 /* shapes.db in Resources */,
+				79ABA80F2F48AC0900046087 /* calendar.json in Resources */,
+				79ABA8092F47E47100046087 /* trips.json in Resources */,
+				79482DD02F46A9B400397300 /* stops.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		792793572F4528BD00477826 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				79C80C072F4B310E00D15E0B /* TripUpdatesService.swift in Sources */,
+				790CB1EF2F4A4502008F5088 /* GTFSMapper.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		792793642F4528BF00477826 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.6;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		792793652F4528BF00477826 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.6;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		792793672F4528BF00477826 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 4C89SDQ75B;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "\"This app uses your location to show nearby buses.\"";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = bustrack.DubBus;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		792793682F4528BF00477826 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 4C89SDQ75B;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "\"This app uses your location to show nearby buses.\"";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = bustrack.DubBus;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		792793562F4528BD00477826 /* Build configuration list for PBXProject "DubBus" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				792793642F4528BF00477826 /* Debug */,
+				792793652F4528BF00477826 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		792793662F4528BF00477826 /* Build configuration list for PBXNativeTarget "DubBus" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				792793672F4528BF00477826 /* Debug */,
+				792793682F4528BF00477826 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 792793532F4528BD00477826 /* Project object */;
+}
