@@ -14,6 +14,7 @@ struct MapScreen: View {
     @StateObject private var viewModel = BusViewModel()
     @StateObject private var stopRoutesVM = StopRoutesViewModel()
     @StateObject private var mapScreenModel = MapScreenModel()
+    @StateObject private var geoJSONManager = RouteGeoJSONManager() // NEW: GeoJSON Manager
     @State var searchInput = ""
     @State private var filteredStops: [BusStop] = [] // NEW: State for search results
     
@@ -33,6 +34,8 @@ struct MapScreen: View {
     @State private var searchWorkItem: DispatchWorkItem? = nil
     @State private var searchIndex: [StopSearchEntry] = []
     @State private var ignoreNextMapTapClose = false
+
+    @State private var selectedRoutePolyline: MKPolyline? = nil // NEW: State to hold the polyline for the selected route
     
     // Fallback location (Tallaght Cross) used until we have a user fix
     let fallbackLocation = CLLocation(latitude: 53.2875, longitude: -6.3664)
@@ -64,6 +67,10 @@ struct MapScreen: View {
                     }
                 }
             }
+            // NEW: Display the selected bus route polyline
+//            if let polyline = selectedRoutePolyline {
+//                MapPolyline(polyline, strokeColor: .blue, lineWidth: 5) // You can customize color and width
+//            }
             
         }
         .simultaneousGesture(TapGesture().onEnded {
@@ -77,6 +84,7 @@ struct MapScreen: View {
             searchInput = ""
             filteredStops = []
             selectedRoute = nil
+            selectedRoutePolyline = nil // NEW: Clear polyline on map tap
         })
         .overlay(alignment: .top) {
             VStack {
@@ -98,6 +106,7 @@ struct MapScreen: View {
                         // Select the stop in the view model and show the stop sheet
                         viewModel.select(stop: selectedStop)
                         selectedRoute = nil
+                        selectedRoutePolyline = nil // NEW: Clear polyline when a new stop is selected from search
                         showStopSheet = true
                         sheetPresented = false // Ensure the nearby stops sheet is dismissed
                     }
@@ -148,6 +157,8 @@ struct MapScreen: View {
             // Live updates start when a stop is selected
             //GTFSMapper.run(routeId: "5249_119706")
             // Stops are seeded at app launch via DataHandler in DubBusApp; allStops query will populate as soon as seeding completes.
+
+            geoJSONManager.loadGeoJSON(filename: "7778021") // NEW: Load your GeoJSON data
         }
         .onChange(of: mapScreenModel.lastKnownLocation) { newLoc in
             print("location update!")
@@ -241,6 +252,16 @@ struct MapScreen: View {
             searchWorkItem = work
             DispatchQueue.global(qos: .userInitiated).asyncAfter(deadline: .now() + 0.25, execute: work)
         }
+        .onChange(of: selectedRoute) { newRoute in // NEW: React to selectedRoute changes
+            if let route = newRoute {
+                selectedRoutePolyline = geoJSONManager.polylineForRoute(id: route.id)
+                if selectedRoutePolyline == nil {
+                    print("Warning: No polyline found for route_id: \(route.id)")
+                }
+            } else {
+                selectedRoutePolyline = nil // Clear polyline if no route is selected
+            }
+        }
         
         //nearby stops bottom sheet
         .sheet(isPresented: $sheetPresented) {
@@ -265,6 +286,7 @@ struct MapScreen: View {
                                 // Open stop details
                                 viewModel.select(stop: stop)
                                 selectedRoute = nil
+                                selectedRoutePolyline = nil // NEW: Clear polyline when a new stop is selected from nearby sheet
                                 sheetPresented = false
                                 showStopSheet = true
                             } label: {
@@ -308,7 +330,7 @@ struct MapScreen: View {
         }
 
         //selected stop sheet:
-        .sheet(isPresented: $showStopSheet, onDismiss: { selectedRoute = nil }) {
+        .sheet(isPresented: $showStopSheet, onDismiss: { selectedRoute = nil; selectedRoutePolyline = nil }) { // NEW: Clear polyline on dismiss
             VStack(alignment: .leading, spacing: 16) {
                 if let stop = viewModel.selectedStop {
                     HStack(alignment: .firstTextBaseline) {
@@ -323,6 +345,7 @@ struct MapScreen: View {
                         Spacer()
                         Button {
                             selectedRoute = nil
+                            selectedRoutePolyline = nil // NEW: Clear polyline when sheet is closed
                             showStopSheet = false
                         } label: {
                             Image(systemName: "xmark.circle.fill")
@@ -349,10 +372,16 @@ struct MapScreen: View {
                             ForEach(routes) { route in
                                 Button {
                                     withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
-                                        selectedRoute = route
+                                        // Toggle selected route
+                                        if selectedRoute?.id == route.id {
+                                            selectedRoute = nil // Deselect if already selected
+                                            selectedRoutePolyline = nil
+                                        } else {
+                                            selectedRoute = route // Select new route
+                                            // Polyline will be updated by the .onChange(of: selectedRoute) handler
+                                        }
                                     }
-                                    // Hook for future action: load route details, filter, etc.
-                                    print("Selected route:", route.shortName, route.id)
+                                    print("Toggled route selection for:", route.shortName, route.id)
                                 } label: {
                                     RoutePill(title: route.shortName,
                                               isSelected: selectedRoute?.id == route.id,
