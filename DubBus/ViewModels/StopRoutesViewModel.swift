@@ -1,8 +1,5 @@
 import Foundation
 import Combine
-// Assuming GTFSRouteInfo and BusStop are defined in other files within the same module,
-// they should be accessible. If they were in separate modules, explicit imports would be needed.
-// For GTFSMapper, it's nested, so we need to use its qualified name.
 
 final class StopRoutesViewModel: ObservableObject {
     // stop_id -> [GTFSRouteInfo]
@@ -10,10 +7,13 @@ final class StopRoutesViewModel: ObservableObject {
 
     /// Loads the static mapping from stop_id to routes using GTFS datasets bundled with the app.
     func loadStaticStopRoutes() {
-        DispatchQueue.global(qos: .userInitiated).async {
-            // Correctly reference GTFSMapper as it's nested within MappedRoute
-            let map = MappedRoute.GTFSMapper.generateStopToRouteMapping() ?? [:]
-            DispatchQueue.main.async {
+        // Use a Task to bridge into Swift's concurrency system
+        Task {
+            // Use the 'shared' instance and 'await' the async method call.
+            let map = await GTFSMapper.shared.generateStopToRouteMapping() ?? [:]
+            
+            // Ensure UI updates occur on the Main Actor
+            await MainActor.run {
                 self.stopRoutes = map
             }
         }

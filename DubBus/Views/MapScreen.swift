@@ -256,7 +256,7 @@ struct MapScreen: View {
             if let route = newRoute {
                 Task {
                     // Use the road-snapped version to ensure lines follow roads and don't overlap buildings
-                    selectedRoutePolyline = await MappedRoute.GTFSMapper.loadSnappedRoutePolyline(forRouteId: route.id)
+                    selectedRoutePolyline = await GTFSMapper.shared.loadSnappedRoutePolyline(forRouteId: route.id)
                     
                     if let polyline = selectedRoutePolyline {
                         print("Loaded snapped polyline for route \(route.id). Adjusting map camera.")
