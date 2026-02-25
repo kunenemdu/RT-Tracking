@@ -255,16 +255,17 @@ struct MapScreen: View {
         .onChange(of: selectedRoute) { newRoute in // React to selectedRoute changes
             if let route = newRoute {
                 Task {
-                    selectedRoutePolyline = await MappedRoute.GTFSMapper.loadRoutePolyline(forRouteId: route.id)
+                    // Use the road-snapped version to ensure lines follow roads and don't overlap buildings
+                    selectedRoutePolyline = await MappedRoute.GTFSMapper.loadSnappedRoutePolyline(forRouteId: route.id)
+                    
                     if let polyline = selectedRoutePolyline {
-                        print("Loaded polyline for route \(route.id). Adjusting map camera.")
+                        print("Loaded snapped polyline for route \(route.id). Adjusting map camera.")
                         // Adjust map camera to fit the polyline
-                        // Add some padding to the bounding box
                         let mapRect = polyline.boundingMapRect
                         let paddedRect = mapRect.insetBy(dx: -mapRect.width * 0.2, dy: -mapRect.height * 0.2) // 20% padding
                         position = .rect(paddedRect)
                     } else {
-                        print("Failed to load polyline for route \(route.id)")
+                        print("Failed to load snapped polyline for route \(route.id)")
                     }
                 }
             } else {

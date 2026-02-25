@@ -44,14 +44,14 @@ struct MappedRoute: CustomStringConvertible {
         
         // Display for Direction 1
         if let tripId1 = direction1TripId {
-            output += "- Direction 0 (Trip: \(tripId1)) -> stops (\(direction1Stops.count))\n"
+            output += "- Direction 1 (Trip: \(tripId1)) -> stops (\(direction1Stops.count))\n"
             output += "  Stops for Direction 1:\n"
             for stop in direction1Stops {
                 let name = stop.stop_name ?? "(no name)"
                 output += "    • stop_id: \(stop.stop_id), name: \(name), lat: \(stop.stop_lat), lon: \(stop.stop_lon)\n"
             }
         } else {
-            output += "- Direction 0: No trip found.\n"
+            output += "- Direction 1: No trip found.\n"
         }
         return output
     }
@@ -104,6 +104,11 @@ struct MappedRoute: CustomStringConvertible {
         let stop_lat: Double // Added latitude property
         let stop_lon: Double // Added longitude property
         
+        // Helper to return a CLLocationCoordinate2D for MapKit interactions
+        var coordinate: CLLocationCoordinate2D {
+            CLLocationCoordinate2D(latitude: stop_lat, longitude: stop_lon)
+        }
+        
         enum CodingKeys: String, CodingKey {
             case stop_id
             case stop_name
@@ -141,9 +146,11 @@ struct MappedRoute: CustomStringConvertible {
         private static var cachedStopTimes: [String: [String]]?
         private static var cachedMappedRoutes: [String: MappedRoute] = [:]
         private static var cachedStopToRoutes: [String: [GTFSRouteInfo]]?
-        // NEW: Cache for GeoJSON route features
+        // Cache for GeoJSON route features
         private static var cachedGeoJSONRoutes: GeoJSONFeatureCollection?
         private static var cachedRoutePolylines: [String: MKPolyline] = [:]
+        // NEW: Cache for snapped polylines to avoid redundant road-snapping network requests
+        private static var cachedSnappedPolylines: [String: MKPolyline] = [:]
         
         
         // Dataset loader helpers with caching
@@ -477,6 +484,73 @@ struct MappedRoute: CustomStringConvertible {
                 print("[GTFS][error] Failed to load route polyline for '\(routeId)': \(error)")
                 return nil
             }
+        }
+        
+        /// NEW: Loads a road-snapped polyline using MKDirections.
+        /// This method calculates the path between bus stops to ensure it follows the actual road network,
+        /// preventing the route from cutting through buildings.
+        static func loadSnappedRoutePolyline(forRouteId routeId: String) async -> MKPolyline? {
+            if let cached = cachedSnappedPolylines[routeId] {
+                print("[DEBUG][GTFSMapper.loadSnappedRoutePolyline] Returning cached snapped polyline for \(routeId)")
+                return cached
+            }
+            
+            print("[DEBUG][GTFSMapper.loadSnappedRoutePolyline] Calculating road-snapped route: \(routeId)")
+            
+            // 1. Get the stops for the route
+            guard let mappedRoute = run(routeId: routeId) else {
+                print("[GTFS][warn] Could not get mapped route for snapping: \(routeId)")
+                return await loadRoutePolyline(forRouteId: routeId) // Fallback to raw GeoJSON if mapping fails
+            }
+            
+            // Use direction 0 stops as primary; if empty, use direction 1.
+            let stops = mappedRoute.direction0Stops.isEmpty ? mappedRoute.direction1Stops : mappedRoute.direction0Stops
+            
+            guard stops.count > 1 else {
+                print("[GTFS][warn] Not enough stops to snap route: \(routeId)")
+                return await loadRoutePolyline(forRouteId: routeId)
+            }
+            
+            // 2. Build the snapped polyline by requesting directions between sequential stops.
+            var allPoints: [MKMapPoint] = []
+            
+            for i in 0..<(stops.count - 1) {
+                let source = stops[i].coordinate
+                let destination = stops[i+1].coordinate
+                
+                let request = MKDirections.Request()
+                request.source = MKMapItem(placemark: MKPlacemark(coordinate: source))
+                request.destination = MKMapItem(placemark: MKPlacemark(coordinate: destination))
+                request.transportType = .automobile // Bus routes follow the road network
+                
+                let directions = MKDirections(request: request)
+                
+                do {
+                    // This creates a road-snapped route segment between two stops
+                    let response = try await directions.calculate()
+                    if let route = response.routes.first {
+                        let count = route.polyline.pointCount
+                        let points = route.polyline.points
+                        for j in 0..<count {
+                            allPoints.append(points()[j])
+                        }
+                    }
+                } catch {
+                    print("[GTFS][warn] Snapping failed for segment \(i) (\(routeId)): \(error.localizedDescription). Falling back to straight line.")
+                    allPoints.append(MKMapPoint(source))
+                    allPoints.append(MKMapPoint(destination))
+                }
+                
+                // Yield to allow the system to process other tasks and keep the UI responsive during calculations
+                await Task.yield()
+            }
+            
+            guard !allPoints.isEmpty else { return nil }
+            
+            let finalPolyline = MKPolyline(points: allPoints, count: allPoints.count)
+            cachedSnappedPolylines[routeId] = finalPolyline
+            print("[DEBUG][GTFSMapper.loadSnappedRoutePolyline] Finished snapping for \(routeId) with \(allPoints.count) points")
+            return finalPolyline
         }
         
         
