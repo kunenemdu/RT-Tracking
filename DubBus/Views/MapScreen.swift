@@ -67,11 +67,35 @@ struct MapScreen: View {
                     }
                 }
             }
-            // NEW: Display the selected bus route polyline
+            
+            // Display the selected bus route polyline
             if let polyline = selectedRoutePolyline {
-                // IMPORTANT: Customize color and width to ensure visibility
                 MapPolyline(polyline)
-                    .stroke(Color.blue, lineWidth: 5) // Make the polyline clearly visible
+                    .stroke(Color.blue, lineWidth: 5)
+            }
+
+            // NEW: Display real-time bus locations for the selected route
+            if let selectedRoute = selectedRoute {
+                ForEach(viewModel.buses.filter { $0.routeId == selectedRoute.id }) { bus in
+                    Annotation(bus.id, coordinate: bus.coordinate) {
+                        VStack(spacing: 4) {
+                            ZStack {
+                                Circle()
+                                    .fill(.blue)
+                                    .frame(width: 32, height: 32)
+                                    .shadow(color: .black.opacity(0.2), radius: 4, x: 0, y: 2)
+                                Image(systemName: "bus.fill")
+                                    .font(.system(size: 14, weight: .bold))
+                                    .foregroundStyle(.white)
+                            }
+                            Text(selectedRoute.shortName)
+                                .font(.caption2.bold())
+                                .padding(.horizontal, 6)
+                                .padding(.vertical, 2)
+                                .background(.ultraThinMaterial, in: Capsule())
+                        }
+                    }
+                }
             }
         }
         .simultaneousGesture(TapGesture().onEnded {
@@ -89,9 +113,6 @@ struct MapScreen: View {
         })
         .overlay(alignment: .top) {
             VStack {
-                // REPLACED: searchBar computed property is removed.
-                // It is replaced by the SearchOverlay component below.
-                
                 // NEW: Use SearchOverlay for search functionality
                 SearchOverlay(
                     searchText: $searchInput,
@@ -137,12 +158,6 @@ struct MapScreen: View {
                 
             }
         }
-        .onSubmit {
-            // This .onSubmit is on the Map itself.
-            // You can add logic here if you want a specific action when the return key
-            // is pressed while the map is active, but it won't directly affect
-            // the TextField within SearchOverlay.
-        }
         .onAppear {
             // Ensure we have permission and start getting user location immediately
             mapScreenModel.checkLocationEnabled()
@@ -155,10 +170,9 @@ struct MapScreen: View {
             }
             stopRoutesVM.loadStaticStopRoutes()
             searchIndex = allStops.map { StopSearchEntry(stop: $0, code: String($0.stopCode), nameLower: $0.name.lowercased()) }
-            // Live updates start when a stop is selected
-            //GTFSMapper.run(routeId: "5249_119706")
-            // Stops are seeded at app launch via DataHandler in DubBusApp; allStops query will populate as soon as seeding completes.
-
+        }
+        .onDisappear {
+            viewModel.stopLiveUpdates()
         }
         .onChange(of: mapScreenModel.lastKnownLocation) { newLoc in
             print("location update!")
@@ -214,7 +228,7 @@ struct MapScreen: View {
                     return false
                 }
 
-                // 1) Code prefix matches (best match for user typing a stop code)
+                // 1) Code prefix matches
                 for entry in indexSnapshot {
                     if entry.code.hasPrefix(trimmed) {
                         if appendIfNew(entry) { break }
@@ -255,7 +269,7 @@ struct MapScreen: View {
         .onChange(of: selectedRoute) { newRoute in // React to selectedRoute changes
             if let route = newRoute {
                 Task {
-                    // Use the road-snapped version to ensure lines follow roads and don't overlap buildings
+                    // Corrected to use the shared instance of the GTFSMapper actor
                     selectedRoutePolyline = await GTFSMapper.shared.loadSnappedRoutePolyline(forRouteId: route.id)
                     
                     if let polyline = selectedRoutePolyline {
@@ -263,7 +277,9 @@ struct MapScreen: View {
                         // Adjust map camera to fit the polyline
                         let mapRect = polyline.boundingMapRect
                         let paddedRect = mapRect.insetBy(dx: -mapRect.width * 0.2, dy: -mapRect.height * 0.2) // 20% padding
-                        position = .rect(paddedRect)
+                        withAnimation {
+                            position = .rect(paddedRect)
+                        }
                     } else {
                         print("Failed to load snapped polyline for route \(route.id)")
                     }
@@ -271,6 +287,14 @@ struct MapScreen: View {
             } else {
                 selectedRoutePolyline = nil // Clear polyline if no route is selected
                 print("Selected route cleared, polyline removed.")
+            }
+        }
+        // NEW: Toggle live updates when the stop sheet is shown/hidden
+        .onChange(of: showStopSheet) { isShowing in
+            if isShowing {
+                viewModel.startLiveUpdates()
+            } else {
+                viewModel.stopLiveUpdates()
             }
         }
         
@@ -337,12 +361,12 @@ struct MapScreen: View {
             .presentationDetents([.fraction(0.30), .medium])
             .presentationDragIndicator(.visible)
             .presentationBackground(.ultraThinMaterial)
-            .presentationBackgroundInteraction(.enabled) // NEW: Allow interaction with content behind the sheet
+            .presentationBackgroundInteraction(.enabled)
             .animation(.spring(response: 0.35, dampingFraction: 0.85), value: sheetPresented)
         }
 
         //selected stop sheet:
-        .sheet(isPresented: $showStopSheet, onDismiss: { selectedRoute = nil; selectedRoutePolyline = nil }) { // Clear polyline on dismiss
+        .sheet(isPresented: $showStopSheet, onDismiss: { selectedRoute = nil; selectedRoutePolyline = nil }) {
             VStack(alignment: .leading, spacing: 16) {
                 if let stop = viewModel.selectedStop {
                     HStack(alignment: .firstTextBaseline) {
@@ -386,11 +410,9 @@ struct MapScreen: View {
                                     withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
                                         // Toggle selected route
                                         if selectedRoute?.id == route.id {
-                                            selectedRoute = nil // Deselect if already selected
-                                            // selectedRoutePolyline will be cleared by .onChange(of: selectedRoute)
+                                            selectedRoute = nil
                                         } else {
-                                            selectedRoute = route // Select new route
-                                            // Polyline will be updated by the .onChange(of: selectedRoute) handler
+                                            selectedRoute = route
                                         }
                                     }
                                     print("Toggled route selection for:", route.shortName, route.id)
@@ -409,21 +431,17 @@ struct MapScreen: View {
             .presentationDetents([.fraction(0.35), .medium, .large])
             .presentationDragIndicator(.visible)
             .presentationBackground(.ultraThinMaterial)
-            .presentationBackgroundInteraction(.enabled) // NEW: Allow interaction with content behind the sheet
+            .presentationBackgroundInteraction(.enabled)
         }
         
     }
     
     private func recomputeNearbyStops(for location: CLLocation) {
-        print("computing stops for: \(location)")
         let stops = allStops
-        // Debounce and cancel previous pending computation
         let token = UUID()
         recomputeToken = token
         DispatchQueue.global(qos: .userInitiated).asyncAfter(deadline: .now() + 0.2) {
-            // If a new request superseded this one, drop this work
             if self.recomputeToken != token { return }
-            // Heavy work off the main thread
             let sorted = stops.sorted {
                 let loc1 = CLLocation(latitude: $0.latitude, longitude: $0.longitude)
                 let loc2 = CLLocation(latitude: $1.latitude, longitude: $1.longitude)
