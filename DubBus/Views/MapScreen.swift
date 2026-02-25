@@ -336,6 +336,7 @@ struct MapScreen: View {
             .presentationDetents([.fraction(0.30), .medium])
             .presentationDragIndicator(.visible)
             .presentationBackground(.ultraThinMaterial)
+            .presentationBackgroundInteraction(.enabled) // NEW: Allow interaction with content behind the sheet
             .animation(.spring(response: 0.35, dampingFraction: 0.85), value: sheetPresented)
         }
 
@@ -407,6 +408,7 @@ struct MapScreen: View {
             .presentationDetents([.fraction(0.35), .medium, .large])
             .presentationDragIndicator(.visible)
             .presentationBackground(.ultraThinMaterial)
+            .presentationBackgroundInteraction(.enabled) // NEW: Allow interaction with content behind the sheet
         }
         
     }
