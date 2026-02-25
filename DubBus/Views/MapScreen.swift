@@ -14,7 +14,6 @@ struct MapScreen: View {
     @StateObject private var viewModel = BusViewModel()
     @StateObject private var stopRoutesVM = StopRoutesViewModel()
     @StateObject private var mapScreenModel = MapScreenModel()
-    @StateObject private var geoJSONManager = RouteGeoJSONManager() // NEW: GeoJSON Manager
     @State var searchInput = ""
     @State private var filteredStops: [BusStop] = [] // NEW: State for search results
     
@@ -35,7 +34,7 @@ struct MapScreen: View {
     @State private var searchIndex: [StopSearchEntry] = []
     @State private var ignoreNextMapTapClose = false
 
-    @State private var selectedRoutePolyline: MKPolyline? = nil // NEW: State to hold the polyline for the selected route
+    @State private var selectedRoutePolyline: MKPolyline? = nil // State to hold the polyline for the selected route
     
     // Fallback location (Tallaght Cross) used until we have a user fix
     let fallbackLocation = CLLocation(latitude: 53.2875, longitude: -6.3664)
@@ -60,6 +59,7 @@ struct MapScreen: View {
                                 // on selection:
                                 viewModel.select(stop: stop)
                                 selectedRoute = nil
+                                selectedRoutePolyline = nil // Clear polyline when a new stop is selected directly on map
                                 sheetPresented = false
                                 showStopSheet = true
                                 print("selected stop: \(stop.stopCode)")
@@ -68,10 +68,11 @@ struct MapScreen: View {
                 }
             }
             // NEW: Display the selected bus route polyline
-//            if let polyline = selectedRoutePolyline {
-//                MapPolyline(polyline, strokeColor: .blue, lineWidth: 5) // You can customize color and width
-//            }
-            
+            if let polyline = selectedRoutePolyline {
+                // IMPORTANT: Customize color and width to ensure visibility
+                MapPolyline(polyline)
+                    .stroke(Color.blue, lineWidth: 5) // Make the polyline clearly visible
+            }
         }
         .simultaneousGesture(TapGesture().onEnded {
             if ignoreNextMapTapClose {
@@ -84,7 +85,7 @@ struct MapScreen: View {
             searchInput = ""
             filteredStops = []
             selectedRoute = nil
-            selectedRoutePolyline = nil // NEW: Clear polyline on map tap
+            selectedRoutePolyline = nil // Clear polyline on map tap
         })
         .overlay(alignment: .top) {
             VStack {
@@ -106,7 +107,7 @@ struct MapScreen: View {
                         // Select the stop in the view model and show the stop sheet
                         viewModel.select(stop: selectedStop)
                         selectedRoute = nil
-                        selectedRoutePolyline = nil // NEW: Clear polyline when a new stop is selected from search
+                        selectedRoutePolyline = nil // Clear polyline when a new stop is selected from search
                         showStopSheet = true
                         sheetPresented = false // Ensure the nearby stops sheet is dismissed
                     }
@@ -158,7 +159,6 @@ struct MapScreen: View {
             //GTFSMapper.run(routeId: "5249_119706")
             // Stops are seeded at app launch via DataHandler in DubBusApp; allStops query will populate as soon as seeding completes.
 
-            geoJSONManager.loadGeoJSON(filename: "7778021") // NEW: Load your GeoJSON data
         }
         .onChange(of: mapScreenModel.lastKnownLocation) { newLoc in
             print("location update!")
@@ -252,14 +252,24 @@ struct MapScreen: View {
             searchWorkItem = work
             DispatchQueue.global(qos: .userInitiated).asyncAfter(deadline: .now() + 0.25, execute: work)
         }
-        .onChange(of: selectedRoute) { newRoute in // NEW: React to selectedRoute changes
+        .onChange(of: selectedRoute) { newRoute in // React to selectedRoute changes
             if let route = newRoute {
-                selectedRoutePolyline = geoJSONManager.polylineForRoute(id: route.id)
-                if selectedRoutePolyline == nil {
-                    print("Warning: No polyline found for route_id: \(route.id)")
+                Task {
+                    selectedRoutePolyline = await MappedRoute.GTFSMapper.loadRoutePolyline(forRouteId: route.id)
+                    if let polyline = selectedRoutePolyline {
+                        print("Loaded polyline for route \(route.id). Adjusting map camera.")
+                        // Adjust map camera to fit the polyline
+                        // Add some padding to the bounding box
+                        let mapRect = polyline.boundingMapRect
+                        let paddedRect = mapRect.insetBy(dx: -mapRect.width * 0.2, dy: -mapRect.height * 0.2) // 20% padding
+                        position = .rect(paddedRect)
+                    } else {
+                        print("Failed to load polyline for route \(route.id)")
+                    }
                 }
             } else {
                 selectedRoutePolyline = nil // Clear polyline if no route is selected
+                print("Selected route cleared, polyline removed.")
             }
         }
         
@@ -286,7 +296,7 @@ struct MapScreen: View {
                                 // Open stop details
                                 viewModel.select(stop: stop)
                                 selectedRoute = nil
-                                selectedRoutePolyline = nil // NEW: Clear polyline when a new stop is selected from nearby sheet
+                                selectedRoutePolyline = nil // Clear polyline when a new stop is selected from nearby sheet
                                 sheetPresented = false
                                 showStopSheet = true
                             } label: {
@@ -330,7 +340,7 @@ struct MapScreen: View {
         }
 
         //selected stop sheet:
-        .sheet(isPresented: $showStopSheet, onDismiss: { selectedRoute = nil; selectedRoutePolyline = nil }) { // NEW: Clear polyline on dismiss
+        .sheet(isPresented: $showStopSheet, onDismiss: { selectedRoute = nil; selectedRoutePolyline = nil }) { // Clear polyline on dismiss
             VStack(alignment: .leading, spacing: 16) {
                 if let stop = viewModel.selectedStop {
                     HStack(alignment: .firstTextBaseline) {
@@ -345,7 +355,7 @@ struct MapScreen: View {
                         Spacer()
                         Button {
                             selectedRoute = nil
-                            selectedRoutePolyline = nil // NEW: Clear polyline when sheet is closed
+                            selectedRoutePolyline = nil // Clear polyline when sheet is closed
                             showStopSheet = false
                         } label: {
                             Image(systemName: "xmark.circle.fill")
@@ -375,7 +385,7 @@ struct MapScreen: View {
                                         // Toggle selected route
                                         if selectedRoute?.id == route.id {
                                             selectedRoute = nil // Deselect if already selected
-                                            selectedRoutePolyline = nil
+                                            // selectedRoutePolyline will be cleared by .onChange(of: selectedRoute)
                                         } else {
                                             selectedRoute = route // Select new route
                                             // Polyline will be updated by the .onChange(of: selectedRoute) handler

@@ -9,10 +9,12 @@
 /* Begin PBXBuildFile section */
 		790CB1EF2F4A4502008F5088 /* GTFSMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790CB1EE2F4A4502008F5088 /* GTFSMapper.swift */; };
 		79482DD02F46A9B400397300 /* stops.json in Resources */ = {isa = PBXBuildFile; fileRef = 79482DCF2F46A9B400397300 /* stops.json */; };
+		795F3E6B2F4F1B94003BDDF2 /* 7778021.geojson in Resources */ = {isa = PBXBuildFile; fileRef = 795F3E6A2F4F1B94003BDDF2 /* 7778021.geojson */; };
+		795F3E6D2F4F1BC3003BDDF2 /* 7778021.geojson in Resources */ = {isa = PBXBuildFile; fileRef = 795F3E6C2F4F1BC3003BDDF2 /* 7778021.geojson */; };
+		795F3E6F2F4F3772003BDDF2 /* 77780211.geojson in Resources */ = {isa = PBXBuildFile; fileRef = 795F3E6E2F4F3772003BDDF2 /* 77780211.geojson */; };
 		79ABA8092F47E47100046087 /* trips.json in Resources */ = {isa = PBXBuildFile; fileRef = 79ABA8072F47E47100046087 /* trips.json */; };
 		79ABA80E2F48AC0900046087 /* stop_times.json in Resources */ = {isa = PBXBuildFile; fileRef = 79ABA80D2F48AC0900046087 /* stop_times.json */; };
 		79ABA80F2F48AC0900046087 /* calendar.json in Resources */ = {isa = PBXBuildFile; fileRef = 79ABA80C2F48AC0900046087 /* calendar.json */; };
-		79C80C072F4B310E00D15E0B /* TripUpdatesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79C80C052F4B310E00D15E0B /* TripUpdatesService.swift */; };
 		79F5CD942F48CDE200C163F2 /* routes.json in Resources */ = {isa = PBXBuildFile; fileRef = 79F5CD8B2F48CDE200C163F2 /* routes.json */; };
 		79F5CD962F48CDE200C163F2 /* shapes.db in Resources */ = {isa = PBXBuildFile; fileRef = 79F5CD8D2F48CDE200C163F2 /* shapes.db */; };
 /* End PBXBuildFile section */
@@ -21,10 +23,12 @@
 		790CB1EE2F4A4502008F5088 /* GTFSMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GTFSMapper.swift; sourceTree = "<group>"; };
 		7927935B2F4528BD00477826 /* DubBus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DubBus.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		79482DCF2F46A9B400397300 /* stops.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = stops.json; sourceTree = "<group>"; };
+		795F3E6A2F4F1B94003BDDF2 /* 7778021.geojson */ = {isa = PBXFileReference; lastKnownFileType = text; path = 7778021.geojson; sourceTree = "<group>"; };
+		795F3E6C2F4F1BC3003BDDF2 /* 7778021.geojson */ = {isa = PBXFileReference; lastKnownFileType = text; path = 7778021.geojson; sourceTree = "<group>"; };
+		795F3E6E2F4F3772003BDDF2 /* 77780211.geojson */ = {isa = PBXFileReference; lastKnownFileType = text; path = 77780211.geojson; sourceTree = "<group>"; };
 		79ABA8072F47E47100046087 /* trips.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = trips.json; sourceTree = "<group>"; };
 		79ABA80C2F48AC0900046087 /* calendar.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = calendar.json; sourceTree = "<group>"; };
 		79ABA80D2F48AC0900046087 /* stop_times.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = stop_times.json; sourceTree = "<group>"; };
-		79C80C052F4B310E00D15E0B /* TripUpdatesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripUpdatesService.swift; sourceTree = "<group>"; };
 		79F5CD8B2F48CDE200C163F2 /* routes.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = routes.json; sourceTree = "<group>"; };
 		79F5CD8D2F48CDE200C163F2 /* shapes.db */ = {isa = PBXFileReference; lastKnownFileType = file; path = shapes.db; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -75,6 +79,7 @@
 		792793522F4528BD00477826 = {
 			isa = PBXGroup;
 			children = (
+				795F3E6A2F4F1B94003BDDF2 /* 7778021.geojson */,
 				79ABA80C2F48AC0900046087 /* calendar.json */,
 				79ABA80D2F48AC0900046087 /* stop_times.json */,
 				79F5CD8B2F48CDE200C163F2 /* routes.json */,
@@ -84,7 +89,8 @@
 				7927935D2F4528BD00477826 /* DubBus */,
 				7927935C2F4528BD00477826 /* Products */,
 				790CB1EE2F4A4502008F5088 /* GTFSMapper.swift */,
-				79C80C052F4B310E00D15E0B /* TripUpdatesService.swift */,
+				795F3E6C2F4F1BC3003BDDF2 /* 7778021.geojson */,
+				795F3E6E2F4F3772003BDDF2 /* 77780211.geojson */,
 			);
 			sourceTree = "<group>";
 		};
@@ -160,9 +166,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				795F3E6F2F4F3772003BDDF2 /* 77780211.geojson in Resources */,
+				795F3E6B2F4F1B94003BDDF2 /* 7778021.geojson in Resources */,
 				79ABA80E2F48AC0900046087 /* stop_times.json in Resources */,
 				79F5CD942F48CDE200C163F2 /* routes.json in Resources */,
 				79F5CD962F48CDE200C163F2 /* shapes.db in Resources */,
+				795F3E6D2F4F1BC3003BDDF2 /* 7778021.geojson in Resources */,
 				79ABA80F2F48AC0900046087 /* calendar.json in Resources */,
 				79ABA8092F47E47100046087 /* trips.json in Resources */,
 				79482DD02F46A9B400397300 /* stops.json in Resources */,
@@ -176,7 +185,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				79C80C072F4B310E00D15E0B /* TripUpdatesService.swift in Sources */,
 				790CB1EF2F4A4502008F5088 /* GTFSMapper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
