@@ -136,6 +136,7 @@ class BusStop: Identifiable {
     }
 }
 
+--
 
 Data Seeding: DataHandler
 Loads stops.json from the app bundle and inserts rows into SwiftData. The decoding is robust to JSON where stop_id or stop_code might be strings or numbers.
@@ -211,6 +212,7 @@ The seeding logic accepts stop_id and stop_code as either strings or numbers, an
   }
 ]
 
+--
 
 Customize the default region
 To adapt the app to another city or region:
