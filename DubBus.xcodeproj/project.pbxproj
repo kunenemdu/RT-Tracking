@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		79099C332F4FCD6E0094E681 /* README 2.md in Resources */ = {isa = PBXBuildFile; fileRef = 79099C322F4FCD6D0094E681 /* README 2.md */; };
+		79099C572F4FE9C50094E681 /* demo.gif in Resources */ = {isa = PBXBuildFile; fileRef = 79099C562F4FE9C50094E681 /* demo.gif */; };
 		790CB1EF2F4A4502008F5088 /* GTFSMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790CB1EE2F4A4502008F5088 /* GTFSMapper.swift */; };
 		79482DD02F46A9B400397300 /* stops.json in Resources */ = {isa = PBXBuildFile; fileRef = 79482DCF2F46A9B400397300 /* stops.json */; };
 		795F3E6B2F4F1B94003BDDF2 /* 7778021.geojson in Resources */ = {isa = PBXBuildFile; fileRef = 795F3E6A2F4F1B94003BDDF2 /* 7778021.geojson */; };
@@ -22,6 +23,7 @@
 
 /* Begin PBXFileReference section */
 		79099C322F4FCD6D0094E681 /* README 2.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "README 2.md"; sourceTree = "<group>"; };
+		79099C562F4FE9C50094E681 /* demo.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = demo.gif; sourceTree = "<group>"; };
 		790CB1EE2F4A4502008F5088 /* GTFSMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GTFSMapper.swift; sourceTree = "<group>"; };
 		7927935B2F4528BD00477826 /* DubBus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DubBus.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		79482DCF2F46A9B400397300 /* stops.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = stops.json; sourceTree = "<group>"; };
@@ -94,6 +96,7 @@
 				795F3E6C2F4F1BC3003BDDF2 /* 7778021.geojson */,
 				795F3E6E2F4F3772003BDDF2 /* 77780211.geojson */,
 				79099C322F4FCD6D0094E681 /* README 2.md */,
+				79099C562F4FE9C50094E681 /* demo.gif */,
 			);
 			sourceTree = "<group>";
 		};
@@ -169,6 +172,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				79099C572F4FE9C50094E681 /* demo.gif in Resources */,
 				795F3E6F2F4F3772003BDDF2 /* 77780211.geojson in Resources */,
 				795F3E6B2F4F1B94003BDDF2 /* 7778021.geojson in Resources */,
 				79ABA80E2F48AC0900046087 /* stop_times.json in Resources */,
