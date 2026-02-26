@@ -38,7 +38,7 @@ Static stop data is bundled with the app (stops.json) and seeded into a SwiftDat
 Default region: Tallaght, Dublin (Ireland). The map’s initial fallback location is set to 53.2875, -6.3664 (Tallaght). You can change this in MapScreen.swift.
 
 ```swift:MapScreen.swift
-let fallbackLocation = CLLocation(latitude: 53.2875, longitude: -6.3664)
+let fallbackLocation = CLLocation(latitude: 53.2875, longitude: -6.3664)```
 
 --
 
