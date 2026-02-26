@@ -42,7 +42,7 @@ let fallbackLocation = CLLocation(latitude: 53.2875, longitude: -6.3664)
 
 --
 
-Features
+## Features
 • Nearby stops list and quick access from the map
 • Search overlay with fast, debounced matching by stop code and name
 • Stop details sheet with two tabs: Routes and Tracking
@@ -51,20 +51,20 @@ Features
 • Follow/unfollow a bus to keep the map centered on it
 • Robust stop seeding from JSON with flexible decoding of GTFS-like fields
 
-Screens & Interactions
+## Screens & Interactions
 • Map screen: user location, nearby stop pins, bus icons, and route polyline
 • Search overlay: type a stop code or name; tap a result to jump the camera
 • Nearby Stops sheet: a quick list of stops near your current location
 • Stop Details sheet: shows a header (stop name/code), a segmented control (Routes / Tracking), route chips, and live bus state
 
-Screenshots
+## Screenshots
 Add your screenshots and GIFs to a Docs/ folder in the repo and ensure these file names exist, or update the paths below accordingly.
 
 Map centered on Tallaght
 Stop details & tracking
 Demo of selecting a stop, route, and following a bus
 
-Getting Started
+## Getting Started
 
 Requirements
 • Xcode 15 or later
@@ -100,7 +100,7 @@ Initializes SwiftData and injects the model container into the scene. It also se
 
 --
 
-Stop Model: BusStop
+## Stop Model: BusStop
 A SwiftData @Model that stores stop code, name, coordinates, and a GTFS stop ID. A computed coordinate property returns a CLLocationCoordinate2D for MapKit.
 
 @Model
@@ -138,7 +138,7 @@ class BusStop: Identifiable {
 
 --
 
-Data Seeding: DataHandler
+## Data Seeding: DataHandler
 Loads stops.json from the app bundle and inserts rows into SwiftData. The decoding is robust to JSON where stop_id or stop_code might be strings or numbers.
 
 @MainActor
@@ -157,7 +157,7 @@ class DataHandler {
       
 --
 
-Main UI: MapScreen
+## Main UI: MapScreen
 The core screen that hosts the map, overlays, and sheets. It manages:
 • User location and nearby stop computation
 • Search input and debounced indexing for fast filtering
@@ -173,7 +173,7 @@ Key patterns inside MapScreen:
 
 --
 
-View Models (overview)
+## View Models (overview)
 • BusViewModel: Manages selected stop, live bus updates, and bus list. Starts/stops live updates when the stop sheet is shown/hidden.
 • StopRoutesViewModel: Provides routes serving a stop and loads static route metadata.
 • MapScreenModel: Handles CoreLocation permissions and exposes lastKnownLocation for the map.
@@ -182,7 +182,7 @@ Note: Implementations of these models determine your data sources (e.g., GTFS st
 
 --
 
-Data & APIs
+## Data & APIs
 
 Static Data: stops.json
 A bundled JSON file containing stops with GTFS-like fields. The app seeds this into SwiftData on first launch. By default, the bundled dataset covers the Tallaght area of Dublin, Ireland.
@@ -214,25 +214,25 @@ The seeding logic accepts stop_id and stop_code as either strings or numbers, an
 
 --
 
-Customize the default region
+## Customize the default region
 To adapt the app to another city or region:
 • Replace stops.json with your city’s stops (GTFS), keeping the expected keys.
 • Update the fallback location in MapScreen.swift (see snippet above) to center the map appropriately on first launch.
 • Ensure your route shape provider (e.g., GTFSMapper) and live bus data source are configured for your region.
 
-Routes & Polylines
+## Routes & Polylines
 When a route is selected, GTFSMapper.shared.loadSnappedRoutePolyline(forRouteId:) is used to fetch a polyline. The map then fits the polyline with some padding. Provide your own implementation/data for route shapes in GTFSMapper.
 
-Live Buses
+## Live Buses
 The BusViewModel filters live buses by routeId and publishes updates. The transport mechanism (polling, websockets, etc.) is up to your implementation.
 
-Data Sources (Dublin)
+## Data Sources (Dublin)
 This project focuses on the Tallaght area of Dublin, Ireland. To power routes and live buses, you can integrate with Dublin/Transport for Ireland (TFI) data sources:
 
 • Static data (GTFS): Stops, routes, trips, and shapes. Convert or pre-process the GTFS stops.txt (and optionally shapes/route files) into the stops.json format used by this app.
 • Realtime data (GTFS-RT or vendor APIs): Vehicle Positions and Trip Updates for live bus locations. Your implementation can poll or subscribe and feed updates into BusViewModel.
 
-Recommendations:
+## Recommendations:
 • Review the terms of use and attribution requirements for TFI/Dublin Bus datasets and comply with their licenses.
 • Store API keys and endpoint URLs outside source control (e.g., Info.plist entries or a local configuration file) and inject them at runtime.
 • Implement your route shape provider (e.g., GTFSMapper) to return MKPolyline for a given route ID.
@@ -240,12 +240,12 @@ Recommendations:
 
 Note: This repository does not bundle proprietary feeds. You are responsible for obtaining access to the relevant open data and for adhering to all usage policies.
 
-Privacy & Permissions
+## Privacy & Permissions
 • Location: Used to show your position and compute nearby stops. The app requests “When In Use” authorization. Add a meaningful NSLocationWhenInUseUsageDescription to your Info.plist.
 • Networking: If you enable live data, the app may perform network requests to your realtime provider.
 • Local Storage: Stop data is stored locally using SwiftData. During development, schema mismatches fall back to an in-memory store.
 
-Troubleshooting
+## Troubleshooting
 • No stops appear:
    • Confirm stops.json exists in the app bundle and is valid JSON.
    • Delete the app from the simulator/device to force reseeding on next launch.
@@ -257,7 +257,7 @@ Troubleshooting
 • Route line not showing:
    • Verify your GTFSMapper returns a valid MKPolyline for the selected route ID.
 
-Roadmap
+## Roadmap
 • Favorites: Save preferred stops and routes
 • Alerts: Service alerts and disruptions
 • Offline: Cache route shapes and last-known vehicle positions
@@ -265,9 +265,8 @@ Roadmap
 • Widgets & Live Activities
 • Accessibility improvements and VoiceOver labels for map annotations
 
-License
+## License
 This project is licensed under the MIT License. See the LICENSE file for details. If no LICENSE is present, consider adding one before distributing.
-
 Acknowledgments
 • Apple frameworks: SwiftUI, MapKit, CoreLocation, SwiftData
 • GTFS standards for transit data (for shaping stop and route data)
