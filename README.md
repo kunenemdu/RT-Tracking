@@ -41,7 +41,6 @@ Default region: Tallaght, Dublin (Ireland). The map’s initial fallback locatio
 let fallbackLocation = CLLocation(latitude: 53.2875, longitude: -6.3664)
 ```
 
---
 
 ## Features
 • Nearby stops list and quick access from the map
@@ -99,7 +98,6 @@ Key Components
 App Entry: DubBusApp
 Initializes SwiftData and injects the model container into the scene. It also seeds the database on first run and gracefully falls back to an in-memory store if a schema mismatch occurs (useful during development).
 
---
 
 ## Stop Model: BusStop
 A SwiftData @Model that stores stop code, name, coordinates, and a GTFS stop ID. A computed coordinate property returns a CLLocationCoordinate2D for MapKit.
@@ -138,7 +136,6 @@ class BusStop: Identifiable {
     }
 }
 ```
---
 
 ## Data Seeding: DataHandler
 Loads stops.json from the app bundle and inserts rows into SwiftData. The decoding is robust to JSON where stop_id or stop_code might be strings or numbers.
@@ -158,7 +155,6 @@ class DataHandler {
             guard let url = Bundle.main.url(forResource: "stops", withExtension: "json"),
                   let data = try? Data(contentsOf: url) else { return } ...
 ```
---
 
 ## Main UI: MapScreen
 The core screen that hosts the map, overlays, and sheets. It manages:
@@ -174,7 +170,7 @@ Key patterns inside MapScreen:
 • Camera updates using MapCameraPosition and MapCamera
 • Live buses filtered by selected route
 
---
+
 
 ## View Models (overview)
 • BusViewModel: Manages selected stop, live bus updates, and bus list. Starts/stops live updates when the stop sheet is shown/hidden.
@@ -183,7 +179,7 @@ Key patterns inside MapScreen:
 
 Note: Implementations of these models determine your data sources (e.g., GTFS static data, realtime APIs). Adjust them to your needs.
 
---
+
 
 ## Data & APIs
 
@@ -216,7 +212,6 @@ The seeding logic accepts stop_id and stop_code as either strings or numbers, an
 ]
 ```
 
---
 
 ## Customize the default region
 To adapt the app to another city or region:
