@@ -38,7 +38,7 @@ Static stop data is bundled with the app (stops.json) and seeded into a SwiftDat
 Default region: Tallaght, Dublin (Ireland). The map’s initial fallback location is set to 53.2875, -6.3664 (Tallaght). You can change this in MapScreen.swift.
 
 ```swift:MapScreen.swift
-let fallbackLocation = CLLocation(latitude: 53.2875, longitude: -6.3664)```
+let fallbackLocation = CLLocation(latitude: 53.2875, longitude: -6.3664)
 
 --
 
@@ -103,7 +103,7 @@ Initializes SwiftData and injects the model container into the scene. It also se
 ## Stop Model: BusStop
 A SwiftData @Model that stores stop code, name, coordinates, and a GTFS stop ID. A computed coordinate property returns a CLLocationCoordinate2D for MapKit.
 
-@Model
+```@Model
 class BusStop: Identifiable {
     @Attribute(.unique) var stopCode: Int
     var name: String
@@ -141,7 +141,7 @@ class BusStop: Identifiable {
 ## Data Seeding: DataHandler
 Loads stops.json from the app bundle and inserts rows into SwiftData. The decoding is robust to JSON where stop_id or stop_code might be strings or numbers.
 
-@MainActor
+```@MainActor
 class DataHandler {
     static func seedStopsIfEmpty(context: ModelContext) {
         // Check if database already has stops
@@ -195,7 +195,7 @@ To update or replace stops:
 Example stops.json snippet
 The seeding logic accepts stop_id and stop_code as either strings or numbers, and normalizes them internally.
 
-[
+```[
   {
     "stop_id": "8220DB000001",
     "stop_code": 1234,
