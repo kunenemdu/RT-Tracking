@@ -57,12 +57,10 @@ let fallbackLocation = CLLocation(latitude: 53.2875, longitude: -6.3664)
 • Nearby Stops sheet: a quick list of stops near your current location
 • Stop Details sheet: shows a header (stop name/code), a segmented control (Routes / Tracking), route chips, and live bus state
 
-## Screenshots
-Add your screenshots and GIFs to a Docs/ folder in the repo and ensure these file names exist, or update the paths below accordingly.
+## Demo
 
-Map centered on Tallaght
-Stop details & tracking
-Demo of selecting a stop, route, and following a bus
+![til](./demo.gif)
+
 
 ## Getting Started
 
