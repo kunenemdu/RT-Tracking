@@ -1,6 +1,6 @@
-# DubBus — Live Bus Map & Stop Finder for Tallaght, Dublin (SwiftUI + SwiftData)
+# Dublin Bus Tracker — Live Bus Map & Stop Finder for Tallaght, Dublin (SwiftUI + SwiftData)
 
-DubBus is an iOS app that helps you find nearby bus stops in Tallaght, Dublin, browse routes serving a stop, and view and follow buses live on a map. It uses MapKit for the map experience and SwiftData to persist a local catalog of stops. The app supports searching by stop code or name, viewing route polylines, and following an individual bus as it moves.
+Dublin Bus Tracker is an iOS app that helps you find nearby bus stops in Tallaght, Dublin, browse routes serving a stop, and view and follow buses live on a map. It uses MapKit for the map experience and SwiftData to persist a local catalog of stops. The app supports searching by stop code or name, viewing route polylines, and following an individual bus as it moves.
 
 - iOS 17+
 - SwiftUI, MapKit, CoreLocation
